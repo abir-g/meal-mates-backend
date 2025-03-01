@@ -20,12 +20,3 @@ class MealViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.Gen
         meal = get_object_or_404(self.queryset, pk=pk)
         serializer = MealSerializer(meal, context={'request': request})
         return Response(serializer.data)
-
-    @action(detail=True, methods=['get'])
-    def ingredients(self, request, pk=None):
-        meal = get_object_or_404(self.queryset, pk=pk)
-        ingredients = meal.ingredients.all()
-        serializer = IngredientSerializer(ingredients, many=True)
-        return Response(serializer.data)
-
-    

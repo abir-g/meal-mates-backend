@@ -7,6 +7,8 @@ class IngredientSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'link']
 
 class MealSerializer(serializers.ModelSerializer):
+    ingredients = IngredientSerializer(many=True, read_only=True)
+    
     class Meta:
         model = Meal
         fields = ['id', 'name', 'description', 'ingredients', 'price', 'image']
