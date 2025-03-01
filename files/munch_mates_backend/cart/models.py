@@ -5,7 +5,7 @@ from meal_provider.models import Meal
 User = get_user_model()
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     session_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
