@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'core',
+    'cart',
     'meal_provider',
     'munch_mates_backend'
 ]
