@@ -5,24 +5,10 @@ from meal_provider.models import Meal
 User = get_user_model()
 
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    session_id = models.CharField(max_length=255, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, unique=True)
+    session_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['user'],
-                condition=models.Q(user__isnull=False),
-                name='unique_user_cart'
-            ),  
-            models.UniqueConstraint(
-                fields=['session_id'],
-                condition=models.Q(session_id__isnull=False),
-                name='unique_session_cart'
-            )
-        ]
 
     def __str__(self):
         return f"Cart {self.id} - {'User: ' + self.user.username if self.user else 'Session: ' + self.session_id}"
