@@ -44,11 +44,22 @@ class CartViewSet(mixins.CreateModelMixin,
         if self.request.user.is_authenticated:
             cart, created = Cart.objects.get_or_create(user=self.request.user)
         else:
-            session_key = self.request.session.session_key
-            if not session_key:
+            # Ensure session exists
+            if not self.request.session.session_key:
                 self.request.session.create()
-                session_key = self.request.session.session_key
-            cart, created = Cart.objects.get_or_create(session_id=session_key)
+            
+            # Try to find existing cart with this session
+            cart = Cart.objects.filter(session_id=self.request.session.session_key).first()
+            
+            # If no cart exists, create new one
+            if not cart:
+                cart = Cart.objects.create(session_id=self.request.session.session_key)
+                
+            # Save session
+            self.request.session.save()
+
+            print(f"Session ID: {self.request.session.session_key}")
+            print(f"Cart ID: {cart.id}")
         return cart
 
     def get_cart_item(self, cart, meal_id):

@@ -132,3 +132,17 @@ AUTH_USER_MODEL = 'core.User'
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_CREDENTIALS = True
+
+# Session and Cookie Settings
+SESSION_COOKIE_SAMESITE = 'None'  # Required for cross-origin cookies
+SESSION_COOKIE_SECURE = True      # Required when using SameSite=None
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5174",      # Your frontend URL
+    "http://127.0.0.1:5174",
+]
+
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 86400 * 30  # 30 days
