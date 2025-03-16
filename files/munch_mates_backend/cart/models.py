@@ -29,3 +29,11 @@ class CartItem(models.Model):
     @property
     def total_price(self):
         return self.quantity * self.meal.price
+
+    def save(self, *args, **kwargs):
+        if self.quantity <= 0:
+            # If the instance is already saved (has an ID), delete it
+            if self.id:
+                self.delete()
+            return  # Don't save if quantity is 0 or less
+        super().save(*args, **kwargs)

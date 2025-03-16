@@ -113,8 +113,12 @@ class CartViewSet(mixins.CreateModelMixin,
         if not cart_item:
             return error_response
 
-        cart_item.quantity = quantity
-        cart_item.save()
+        if quantity <= 0:
+            cart_item.delete()
+        else:
+            cart_item.quantity = quantity
+            cart_item.save()
+            
         return Response(self.get_serializer(cart).data)
 
     @action(detail=True, methods=['post'])
